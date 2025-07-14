@@ -1,0 +1,13 @@
+{
+  "name": "hci-github",
+  "version": "1.0.0",
+  "description": "1. Clone this repository\r 2. Run `npm install`\r 3. Start the development server with `npm start`",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

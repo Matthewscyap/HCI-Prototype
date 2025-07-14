@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview on Interaction Designer Role</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .nav-tabs {
+            width: 100%;
+            max-width: 1240px;
+            background-color: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .nav-tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            color: #555;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .nav-tab:hover {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .nav-tab.active {
+            background-color: #4a90e2;
+            color: white;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .camera-container {
+            flex: 1;
+            background-color: #222;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            aspect-ratio: 16/9; /* Landscape ratio */
+        }
+        
+        .camera-feed {
+            flex-grow: 1;
+            background-color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            position: relative;
+        }
+        
+        .camera-placeholder {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .camera-controls {
+            padding: 15px;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .call-status {
+            padding: 8px;
+            text-align: center;
+            background-color: #444;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .call-status.ongoing {
+            background-color: #2ecc71;
+        }
+        
+        .call-status.ended {
+            background-color: #e74c3c;
+        }
+        
+        .control-button {
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.2s;
+        }
+        
+        .control-button:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+        
+        .control-button.active {
+            background-color: #4a90e2;
+        }
+        
+        .control-button.end-call {
+            background-color: #e74c3c;
+        }
+        
+        .control-button.end-call:hover {
+            background-color: #c0392b;
+        }
+        
+        .button-label {
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .interview-container {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: 80vh;
+            aspect-ratio: 9/16; /* Portrait ratio */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .interview-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .interview-header h1 {
+            font-size: 18px;
+            margin: 0;
+            color: #444;
+        }
+        
+        .conversation-container {
+            margin-top: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            line-height: 1.5;
+        }
+        
+        .ai-message {
+            background-color: #f0f7ff;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .user-message {
+            background-color: #f0f0f0;
+            border-left: 4px solid #999;
+            margin-left: 30px;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .ai-speaking {
+            font-style: italic;
+            color: #4a90e2;
+        }
+        
+        .input-area {
+            margin-top: 20px;
+            display: flex;
+        }
+        
+        #user-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        #send-button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        #send-button:hover {
+            background-color: #3a7bc8;
+        }
+        
+        /* Webcam styles */
+        #webcam-video {
+            width: 100%;
+            height: 100%;
+            display: none;
+            object-fit: cover;
+        }
+        
+        .camera-active #webcam-video {
+            display: block;
+        }
+        
+        .camera-active .camera-placeholder {
+            display: none;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Audio visualizer styles */
+        .audio-visualizer {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+            padding: 0 10px;
+            z-index: 10;
+        }
+        
+        .audio-bar {
+            background-color: rgba(74, 144, 226, 0.7);
+            width: 4px;
+            min-height: 1px;
+            border-radius: 2px;
+            transition: height 0.1s ease-out;
+        }
+        
+        .pro-tag {
+            background-color: #ff5722;
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-tabs">
+        <div class="nav-tab active">Interspire</div>
+        <div class="nav-tab">Dashboard</div>
+        <div class="nav-tab">Jobs</div>
+        <div class="nav-tab">Discussion Forum</div>
+        <div class="nav-tab">Upgrade to PRO<span class="pro-tag">PRO</span></div>
+    </div>
+    
+    <div class="main-container">
+        <div class="camera-container">
+            <div class="camera-feed" id="camera-feed">
+                <div class="camera-placeholder">
+                    <p>Camera feed will appear here</p>
+                    <p>Click the camera button to start</p>
+                </div>
+                <video id="webcam-video" autoplay playsinline></video>
+                <div class="audio-visualizer" id="audio-visualizer"></div>
+            </div>
+            <div class="call-status ongoing" id="call-status">Ongoing</div>
+            <div class="camera-controls">
+                <div class="control-group">
+                    <button class="control-button" id="camera-toggle">
+                        <span class="icon">📷</span>
+                    </button>
+                    <div class="button-label">Camera</div>
+                </div>
+                
+                <div class="control-group">
+                    <button class="control-button" id="mic-toggle">
+                        <span class="icon">🎤</span>
+                    </button>
+                    <div class="button-label">Microphone</div>
+                </div>
+                
+                <div class="control-group">
+                    <button class="control-button" id="screen-share">
+                        <span class="icon">🖥️</span>
+                    </button>
+                    <div class="button-label">Share Screen</div>
+                </div>
+                
+                <div class="control-group">
+                    <button class="control-button" id="settings">
+                        <span class="icon">⚙️</span>
+                    </button>
+                    <div class="button-label">Settings</div>
+                </div>
+                
+                <div class="control-group">
+                    <button class="control-button end-call" id="end-call">
+                        <span class="icon">📞</span>
+                    </button>
+                    <div class="button-label">End Call</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="interview-container">
+            <div class="interview-header">
+                <h1>Mock Interview on Interaction Designer Role: 1/7/2025</h1>
+            </div>
+            
+            <div class="conversation-container">
+                <div class="message ai-message">
+                    <div class="speaker">AI Assistant:</div>
+                    <div>Good Afternoon,<br>Welcome To Fintech Connect's Interview.<br>Please Introduce Yourself.</div>
+                </div>
+                
+                <div class="message user-message">
+                    <div class="speaker">You:</div>
+                    <div>Hi, I'm Alex From XYZ University.</div>
+                </div>
+                
+                <div class="message ai-message">
+                    <div class="speaker ai-speaking">AI Assistant: (speaking)</div>
+                    <div id="ai-response"></div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Type your response...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <audio id="ding-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chat functionality
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const aiResponse = document.getElementById('ai-response');
+            const conversationContainer = document.querySelector('.conversation-container');
+            
+            sendButton.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message) {
+                    // Add user message to conversation
+                    const userMessageDiv = document.createElement('div');
+                    userMessageDiv.className = 'message user-message';
+                    userMessageDiv.innerHTML = `
+                        <div class="speaker">You:</div>
+                        <div>${message}</div>
+                    `;
+                    conversationContainer.appendChild(userMessageDiv);
+                    
+                    // Clear input
+                    userInput.value = '';
+                    
+                    // Simulate AI response after a short delay
+                    setTimeout(() => {
+                        // Remove the (speaking) indicator
+                        document.querySelector('.ai-speaking').textContent = 'AI Assistant:';
+                        
+                        // Generate a simple response (in a real app, this would be more sophisticated)
+                        const responses = [
+                            "That's interesting, Alex. Can you tell me more about your experience at XYZ University?",
+                            "Great to meet you, Alex. What drew you to the field of interaction design?",
+                            "Thanks for introducing yourself. What projects have you worked on that relate to this role?"
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        
+                        aiResponse.textContent = randomResponse;
+                        
+                        // Scroll to bottom of conversation
+                        conversationContainer.scrollTop = conversationContainer.scrollHeight;
+                    }, 1000);
+                    
+                    // Show speaking indicator
+                    document.querySelector('.ai-speaking').textContent = 'AI Assistant: (speaking)';
+                    aiResponse.textContent = '';
+                    
+                    // Scroll to bottom of conversation
+                    conversationContainer.scrollTop = conversationContainer.scrollHeight;
+                }
+            }
+            
+            // Camera functionality
+            const cameraToggle = document.getElementById('camera-toggle');
+            const micToggle = document.getElementById('mic-toggle');
+            const screenShare = document.getElementById('screen-share');
+            const settings = document.getElementById('settings');
+            const endCall = document.getElementById('end-call');
+            const cameraFeed = document.getElementById('camera-feed');
+            const videoElement = document.getElementById('webcam-video');
+            const toast = document.getElementById('toast');
+            const dingSound = document.getElementById('ding-sound');
+            const audioVisualizer = document.getElementById('audio-visualizer');
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const callStatus = document.getElementById('call-status');
+            
+            let stream = null;
+            let micActive = false;
+            let audioContext;
+            let analyser;
+            let microphone;
+            let dataArray;
+            let animationId;
+            const barCount = 30;
+            
+            // Tab navigation
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    playDing();
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    showToast(`Navigating to ${this.textContent.trim()}`);
+                });
+            });
+            
+            // Create audio bars for visualizer
+            function createAudioBars() {
+                audioVisualizer.innerHTML = '';
+                for (let i = 0; i < barCount; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'audio-bar';
+                    audioVisualizer.appendChild(bar);
+                }
+            }
+            
+            // Update audio visualizer
+            function updateVisualizer() {
+                if (!analyser) return;
+                
+                analyser.getByteFrequencyData(dataArray);
+                const bars = audioVisualizer.querySelectorAll('.audio-bar');
+                
+                for (let i = 0; i < bars.length; i++) {
+                    // Scale the index to cover the full frequency range
+                    const scaledIndex = Math.floor(i * (dataArray.length / bars.length));
+                    const value = dataArray[scaledIndex] / 255;
+                    // Scale the height for better visibility
+                    const height = value * 100 + 1;
+                    bars[i].style.height = `${height}%`;
+                    // Add some color variation for visual appeal
+                    bars[i].style.backgroundColor = `rgba(74, 144, 226, ${0.5 + value * 0.5})`;
+                }
+                
+                animationId = requestAnimationFrame(updateVisualizer);
+            }
+            
+            // Initialize audio context and analyzer
+            function initAudioAnalyzer(stream) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                
+                createAudioBars();
+                updateVisualizer();
+            }
+            
+            // Clean up audio analyzer
+            function cleanupAudioAnalyzer() {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                
+                if (microphone) {
+                    microphone.disconnect();
+                    microphone = null;
+                }
+                
+                if (audioContext && audioContext.state !== 'closed') {
+                    audioContext.close();
+                    audioContext = null;
+                }
+                
+                analyser = null;
+                dataArray = null;
+                
+                // Reset visualizer bars
+                const bars = audioVisualizer.querySelectorAll('.audio-bar');
+                bars.forEach(bar => {
+                    bar.style.height = '1%';
+                    bar.style.backgroundColor = 'rgba(74, 144, 226, 0.7)';
+                });
+            }
+            
+            // Play ding sound
+            function playDing() {
+                dingSound.currentTime = 0;
+                dingSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+            
+            // Update call status
+            function updateCallStatus(active) {
+                if (active) {
+                    callStatus.textContent = "Ongoing";
+                    callStatus.classList.remove('ended');
+                    callStatus.classList.add('ongoing');
+                } else {
+                    callStatus.textContent = "Ended";
+                    callStatus.classList.remove('ongoing');
+                    callStatus.classList.add('ended');
+                }
+            }
+            
+            // Button click handlers
+            cameraToggle.addEventListener('click', async function() {
+                playDing();
+                if (cameraFeed.classList.contains('camera-active')) {
+                    // Turn off camera
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                        stream = null;
+                    }
+                    cameraFeed.classList.remove('camera-active');
+                    cameraToggle.classList.remove('active');
+                    showToast("Camera turned off");
+                } else {
+                    // Turn on camera
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                        videoElement.srcObject = stream;
+                        cameraFeed.classList.add('camera-active');
+                        cameraToggle.classList.add('active');
+                        showToast("Camera turned on");
+                        updateCallStatus(true);
+                    } catch (err) {
+                        console.error("Error accessing camera:", err);
+                        showToast("Could not access camera");
+                    }
+                }
+            });
+            
+            micToggle.addEventListener('click', async function() {
+                playDing();
+                if (micActive) {
+                    // Turn off microphone
+                    if (stream) {
+                        stream.getAudioTracks().forEach(track => track.stop());
+                    }
+                    micToggle.classList.remove('active');
+                    micActive = false;
+                    showToast("Microphone muted");
+                    
+                    // Clean up audio analyzer
+                    cleanupAudioAnalyzer();
+                } else {
+                    // Turn on microphone
+                    try {
+                        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        if (stream) {
+                            audioStream.getAudioTracks().forEach(track => {
+                                stream.addTrack(track);
+                            });
+                        } else {
+                            stream = audioStream;
+                        }
+                        micToggle.classList.add('active');
+                        micActive = true;
+                        showToast("Microphone unmuted");
+                        
+                        // Initialize audio analyzer
+                        initAudioAnalyzer(audioStream);
+                        updateCallStatus(true);
+                    } catch (err) {
+                        console.error("Error accessing microphone:", err);
+                        showToast("Could not access microphone");
+                    }
+                }
+            });
+            
+            screenShare.addEventListener('click', function() {
+                playDing();
+                showToast("Screen sharing button clicked");
+                // Actual implementation would go here
+            });
+            
+            settings.addEventListener('click', function() {
+                playDing();
+                showToast("Settings button clicked");
+                // Actual implementation would go here
+            });
+            
+            endCall.addEventListener('click', function() {
+                playDing();
+                // End the call
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+                cameraFeed.classList.remove('camera-active');
+                cameraToggle.classList.remove('active');
+                micToggle.classList.remove('active');
+                micActive = false;
+                showToast("Call ended");
+                
+                // Clean up audio analyzer
+                cleanupAudioAnalyzer();
+                
+                // Update call status
+                updateCallStatus(false);
+            });
+            
+            // Initialize audio visualizer bars
+            createAudioBars();
+            
+            // Initialize call status
+            updateCallStatus(true);
+        });
+    </script>
+</body>
+</html>
